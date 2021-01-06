@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+    <div class="container">
+    <div class="py-2 text-center bg-primary text-white">
+        <h1 class="mb-3">Upload Image</h1>
+        <img src="{% static 'success-work.png' %}">
+        <hr style="width: 60%">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <span class="card-text">{{ form.image }}</span>
+            <button type="submit" class="btn btn-warning">Upload</button>
+        </form>
+
+        <style>
+            .message{
+                color: white;
+            }
+
+            .card:hover{
+                background: #f2f2f2;
+                color: blue;
+                transition: .5s;
+                opacity: 0.5;
+            }
+        </style>
+        <div class="message mt-4">
+            {% for x in messages %}
+                <h4>{{ x }}</h4>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Images Collections -->
+    <div class="row">
+        {% for x in data %}
+        <div class="col-sm-4">
+            <div class="card m-2">
+              <a href="{{ x.image.url }}" target="_blank"><img src="{{ x.image.url }}" style="max-height: 200px;" class="card-img-top" alt="..."></a>
+              <div class="card-body">
+                  <p class="card-text">{{ x.uploaded_time }}
+                      <span style="float: right">
+                          <a href="{{ x.image.url }}" download="{{ x.image.url }}"><img src="{% static 'download.png' %}" width="25"></a>
+                      </span></p>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- End Images Collections -->
+
+    <hr>
+
+    </div>
+{% endblock %}
